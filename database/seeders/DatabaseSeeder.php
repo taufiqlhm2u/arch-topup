@@ -29,6 +29,15 @@ class DatabaseSeeder extends Seeder
             'image' => 'games/mobile-legend.webp',
             'publisher' => 'Montoon',
             'server_id' => true,
+            'badge' => 'populer'
+        ]);
+
+        Game::create([
+            'name' => 'Free Fire',
+            'image' => 'games/ff.png',
+            'publisher' => 'Garena',
+            'server_id' => false,
+            'badge' => 'populer'
         ]);
 
         Game::create([
@@ -47,16 +56,17 @@ class DatabaseSeeder extends Seeder
 
         // Game::create([
         //     'name' => 'Valorant',
-        //     'image' => 'valorant.webp',
+        //     'image' => 'games/valorant.webp',
         //     'publisher' => 'Riot Games',
         //     'server_id' => false,
         // ]);
 
         // Game::create([
         //     'name' => 'Genshin Impact',
-        //     'image' => 'genshin-impact.webp',
+        //     'image' => 'games/genshin-impact.webp',
         //     'publisher' => 'miHoYo',
         //     'server_id' => false,
+        //     'badge' => 'flash sale'
         // ]);
     }
 }

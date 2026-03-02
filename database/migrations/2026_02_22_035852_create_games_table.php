@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('publisher');
             $table->boolean('server_id')->default(false);
             $table->string('image');
+            $table->string('badge')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

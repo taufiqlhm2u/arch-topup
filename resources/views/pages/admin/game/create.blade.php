@@ -20,6 +20,15 @@
                             <flux:text class="text-red-500">{{ $message }}</flux:text>
                         @enderror
                     </div>
+
+                    <div>
+                        <flux:label for="badge">Badge</flux:label>
+                        <flux:input id="badge" name="badge" value="{{ old('badge') }}" />
+                        @error('badge')
+                            <flux:text class="text-red-500">{{ $message }}</flux:text>
+                        @enderror
+                    </div>
+                    
                     <div>
                         <flux:label for="image">Image</flux:label>
                         <flux:input type="file" id="image" name="image" value="{{ old('image') }}" />
@@ -27,6 +36,7 @@
                             <flux:text class="text-red-500">{{ $message }}</flux:text>
                         @enderror
                     </div>
+
                     <div>
                         <flux:label for="status">Status</flux:label>
                         <flux:select id="status" name="status">

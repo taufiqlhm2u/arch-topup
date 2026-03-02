@@ -9,18 +9,27 @@
                 <div class="space-y-4">
                     <div>
                         <flux:label for="name">Nama</flux:label>
-                        <flux:input id="name" name="name" value="{{ $item->name }}" />
+                        <flux:input id="name" name="name" value="{{ old('name', $item->name) }}" />
                         @error('name')
                             <flux:text class="text-red-500">{{ $message }}</flux:text>
                         @enderror
                     </div>
                     <div>
                         <flux:label for="publisher">Publisher</flux:label>
-                        <flux:input id="publisher" name="publisher" value="{{ $item->publisher }}" />
+                        <flux:input id="publisher" name="publisher" value="{{ old('publisher', $item->publisher) }}" />
                         @error('publisher')
                             <flux:text class="text-red-500">{{ $message }}</flux:text>
                         @enderror
                     </div>
+
+                    <div>
+                        <flux:label for="badge">Badge</flux:label>
+                        <flux:input id="badge" name="badge" value="{{ old('badge', $item->badge) }}" />
+                        @error('badge')
+                            <flux:text class="text-red-500">{{ $message }}</flux:text>
+                        @enderror
+                    </div>
+
                     <div>
                         <flux:label for="image">Image</flux:label>
                         <flux:input type="file" id="image" name="image" value="{{ old('image') }}" />

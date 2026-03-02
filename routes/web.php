@@ -4,11 +4,10 @@ use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackagesController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::view('controll', 'dashboard')
     ->middleware(['auth', 'verified'])

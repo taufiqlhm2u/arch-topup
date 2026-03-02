@@ -37,6 +37,7 @@ class GameController extends Controller
             'publisher' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5100',
             'status' => 'required',
+            'badge' => 'nullble|text'
         ]);
 
         try {
@@ -50,6 +51,7 @@ class GameController extends Controller
                 'publisher' => $request->publisher,
                 'image' => $path,
                 'status' => $request->status,
+                'badge' => $request->badge ? $request->badge :'',
             ]);
             
             return redirect()->route('admin.game.index');
@@ -86,6 +88,7 @@ class GameController extends Controller
             'publisher' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5100',
             'status' => 'required',
+            'badge' => 'nullable|text'
         ]);
 
        try {
@@ -102,6 +105,7 @@ class GameController extends Controller
                 'publisher' => $request->publisher,
                 'image' => $path,
                 'status' => $request->status,
+                'badge' => $request->badge ? $request->badge :'',
             ]);
             
         } else {

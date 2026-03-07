@@ -68,5 +68,9 @@ class DatabaseSeeder extends Seeder
         //     'server_id' => false,
         //     'badge' => 'flash sale'
         // ]);
+
+        $this->call([
+            paket::class,
+        ]);
     }
 }

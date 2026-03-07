@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('package_id')->constrained()->cascadeOnDelete();
             $table->string('player_id');
-            $table->string('server_if')->nullable();
+            $table->string('server_id')->nullable();
             $table->string('email');
             $table->integer('qty'); // jumlah paket
             $table->float('amount');

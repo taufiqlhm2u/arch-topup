@@ -1,15 +1,17 @@
 <?php
 
+use App\Models\Game;
 use App\Models\Package;
 use Livewire\Component;
 
 new class extends Component {
 
-    // use \Livewire\WithPagination;
+    use \Livewire\WithPagination;
 
     public $sortBy = 'game_id';
     public $sortDirection = 'asc';
     public $search = '';
+    public $game_id = '';
 
     public function sort($field)
     {
@@ -21,10 +23,21 @@ new class extends Component {
         }
     }
 
+    public function games()
+    {
+        return Game::all();
+    }
+
     #[\Livewire\Attributes\Computed]
     public function packages()
     {
         $query = Package::orderBy($this->sortBy, $this->sortDirection);
+
+        if ($this->game_id) {
+            if ($this->game_id !== 'semua') {
+                $query->where('game_id', $this->game_id);
+            }
+        }
 
         $keyword = $this->search;
         if ($keyword) {
@@ -54,12 +67,25 @@ new class extends Component {
     </div>
 
     <div class="flex justify-between mb-4">
+
+        <div class="w-50">
+            <flux:input icon="magnifying-glass" wire:model.live="search" autocomplete="off"
+                placeholder="Cari paket..." />
+        </div>
+
         <div>
             <flux:icon.loading wire:loading wire:target="sort" class="text-blue-500" />
         </div>
-        <div class="w-50">
-            <flux:input icon="magnifying-glass" wire:model.live="search" autocomplete="off" placeholder="Cari paket..." />
+
+        <div>
+            <flux:select wire:model.live="game_id" placeholder="Pilih Game">
+                <flux:select.option value="">Semua</flux:select.option>
+                @foreach ($this->games() as $game)
+                    <flux:select.option value="{{ $game->id }}">{{ $game->name }}</flux:select.option>
+                @endforeach
+            </flux:select>
         </div>
+
     </div>
 
     <flux:table :paginate="$this->packages">
@@ -113,7 +139,8 @@ new class extends Component {
                                     <flex:heading>Hapus Paket?</flex:heading>
                                 </div>
                                 <flux:text class="mt-4">
-                                    Apakah anda yakin ingin menghapus paket "{{ $package->quantity . ' ' .  $package->type }}" ?
+                                    Apakah anda yakin ingin menghapus paket
+                                    "{{ $package->quantity . ' ' . $package->type }}" ?
                                 </flux:text>
 
                                 <div class="flex gap-2">

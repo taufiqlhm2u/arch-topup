@@ -128,7 +128,7 @@ new class extends Component
     @endif
 
     {{-- ── STEP 1: Data Akun ── --}}
-    <div class="rounded-2xl bg-white/[.03] border border-white/[.07] p-6 backdrop-blur-sm">
+    <div class="rounded-2xl bg-white/3 border border-white/[.07] p-6 backdrop-blur-sm">
         <div class="flex items-center gap-3 mb-5">
             <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-bold shadow-lg shadow-indigo-500/40 shrink-0">1</div>
             <h2 class="font-bold text-lg">Masukkan Data Akun Anda</h2>
@@ -152,7 +152,7 @@ new class extends Component
     </div>
 
     {{-- ── STEP 2: Pilih Nominal ── --}}
-    <div class="rounded-2xl bg-white/[.03] border border-white/[.07] p-6 backdrop-blur-sm">
+    <div class="rounded-2xl bg-white/3 border border-white/[.07] p-6 backdrop-blur-sm">
         <div class="flex items-center gap-3 mb-5">
             <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-bold shadow-lg shadow-indigo-500/40 shrink-0">2</div>
             <h2 class="font-bold text-lg">Pilih Nominal yang Ingin Anda Beli</h2>
@@ -231,7 +231,7 @@ new class extends Component
     </div>
 
     {{-- ── STEP 3: Konfirmasi ── --}}
-    <div class="rounded-2xl bg-white/[.03] border border-white/[.07] p-6 backdrop-blur-sm">
+    <div class="rounded-2xl bg-white/3 border border-white/[.07] p-6 backdrop-blur-sm">
         <div class="flex items-center gap-3 mb-5">
             <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-sm font-bold shadow-lg shadow-indigo-500/40 shrink-0">3</div>
             <h2 class="font-bold text-lg">Konfirmasi Pesanan</h2>
@@ -243,7 +243,7 @@ new class extends Component
             <div>
                 <flux:label class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Nomor WhatsApp Aktif</flux:label>
                 <div class="flex gap-2">
-                    <div class="flex items-center px-3 rounded-xl bg-white/[.05] border border-white/[.08] text-sm text-neutral-400 gap-2 shrink-0 select-none">
+                    <div class="flex items-center px-3 rounded-xl bg-white/5 border border-white/8 text-sm text-neutral-400 gap-2 shrink-0 select-none">
                         🇮🇩 <span>+62</span>
                     </div>
                     <flux:input wire:model.live="whatsapp" type="tel" placeholder="812 3456 7890" class="flex-1" />
@@ -271,7 +271,7 @@ new class extends Component
                         class="text-center w-24 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                     />
                     <button type="button" wire:click="increment"
-                        class="w-9 h-9 rounded-xl bg-white/[.05] border border-white/[.08] flex items-center justify-center text-neutral-400 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 hover:shadow-md hover:shadow-indigo-500/10 active:scale-95 transition-all duration-200 cursor-pointer shrink-0">
+                        class="w-9 h-9 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-neutral-400 hover:text-white hover:border-indigo-500/50 hover:bg-indigo-500/10 hover:shadow-md hover:shadow-indigo-500/10 active:scale-95 transition-all duration-200 cursor-pointer shrink-0">
                         <flux:icon.plus class="w-4 h-4" />
                     </button>
                 </div>
@@ -281,7 +281,7 @@ new class extends Component
         </div>
 
         {{-- Summary --}}
-        <div class="rounded-xl bg-neutral-800/50 border border-white/[.05] p-4 mb-5 text-sm space-y-2.5">
+        <div class="rounded-xl bg-neutral-800/50 border border-white/5 p-4 mb-5 text-sm space-y-2.5">
             <p class="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-3">Ringkasan Pesanan</p>
 
             <div class="flex justify-between">
@@ -322,7 +322,7 @@ new class extends Component
                 <span class="font-semibold text-white">{{ $quantity }}x</span>
             </div>
 
-            <div class="h-px bg-white/[.05]"></div>
+            <div class="h-px bg-white/5"></div>
 
             <div class="flex justify-between items-center">
                 <span class="font-semibold text-white">Total</span>

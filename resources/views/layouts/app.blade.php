@@ -1,7 +1,9 @@
 <x-layouts::app.sidebar :title="$title ?? null">
     <flux:main>
-        <flux:heading size="xl" level="1">{{ $daftar ?? '' }}</flux:heading>
-        <flux:separator variant="subtle" />
+        @if (!request()->routeIs('dashboard'))
+            <flux:heading size="xl" level="1">{{ $daftar ?? '' }}</flux:heading>
+            <flux:separator variant="subtle" />
+        @endif
         {{ $slot }}
     </flux:main>
     

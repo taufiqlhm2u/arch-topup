@@ -5,8 +5,9 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PackagesController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\GameController as UserGame;
+use App\Models\Order;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -38,5 +39,9 @@ Route::middleware('guest')->group(function() {
     Route::get('/game/{id}', [UserGame::class, 'show'])->name('game.show')->where('id', '[0-9]+');
     Route::get('/game/search/{q?}', [UserGame::class, 'search'])->name('game.search');
 
-
+    
 });
+Route::get('/finished/payment/{id}', function ($id) {
+    $order = Order::findOrFail($id);
+    dd($order);
+})->name('finish.payment');

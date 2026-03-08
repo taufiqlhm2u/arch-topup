@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('no_kw')->unique();
             $table->foreignId('package_id')->constrained()->cascadeOnDelete();
             $table->string('player_id');
             $table->string('server_id')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->integer('qty'); // jumlah paket
             $table->float('amount');
-            $table->string('external_id');
-            $table->string('payment_url');
+            $table->string('external_id')->nullable();
+            $table->string('payment_url')->nullable();
             $table->enum('status', ['pending', 'successful', 'failed'])->default('pending');
             $table->timestamps();
         });

@@ -65,17 +65,13 @@
     <flux:modal name="search-transaksi-modal" class="md:w-96">
     <div class="p-2">
         <!-- Form Pencarian Transaksi -->
-        <form onsubmit="event.preventDefault(); // Ganti dengan logika pencarian nanti" method="GET" class="relative group">
+        <form onsubmit="event.preventDefault(); window.location.href = '/order/search/' + document.querySelector('input[name=q_transaction]').value;" method="GET" class="relative group">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none group-focus-within:text-indigo-400 transition-colors duration-300">
                 <flux:icon.magnifying-glass class="w-5 h-5 text-neutral-500" />
             </div>
             <input type="search" name="q_transaction" autocomplete="off" placeholder="Cari transaksi (ID atau nama game)..." class="block w-full pl-11 pr-4 py-3 bg-neutral-800/50 border border-white/10 rounded-xl text-sm placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 focus:bg-neutral-800 transition-all duration-300 mt-4">
         </form>
 
-        <!-- Tempat untuk menampilkan hasil pencarian (opsional, bisa diisi nanti) -->
-        <div class="mt-4 text-sm text-neutral-400 text-center">
-            Hasil pencarian akan muncul di sini.
-        </div>
     </div>
 </flux:modal>
 </header>

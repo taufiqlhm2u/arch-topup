@@ -12,4 +12,13 @@ class Order extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
+    public function getStatusColorAttribute()
+    {
+        return match ($this->status) {
+            'pending' => 'yellow',
+            'successful' => 'green',
+            'failed' => 'red',
+        };
+    }
 }

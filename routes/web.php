@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\PackagesController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\GameController as UserGame;
-use App\Models\Order;
+use App\Http\Controllers\User\OrderController as UserOrder;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -18,30 +18,28 @@ Route::view('controll', 'pages.admin.dashboard')
 require __DIR__.'/settings.php';
 
 Route::middleware('auth')
-->prefix('controll')
-->as('admin.')
+    ->prefix('controll')
+    ->as('admin.')
 ->group(function() {
-/**
- * IMPORTANT:
- * Menggunakan prefix "controll" agar route admin tidak terlalu umum
- * dan tidak mudah diakses customer. URL browser = controll,
- * tetapi di dalam code tetap menggunakan admin.
- */
+        /**
+         * IMPORTANT:
+         * Menggunakan prefix "controll" agar route admin tidak terlalu umum
+         * dan tidak mudah diakses customer. URL browser = controll,
+         * tetapi di dalam code tetap menggunakan admin.
+         */
 
-    Route::resource('game', GameController::class);
-    Route::resource('paket', PackagesController::class);
-    Route::resource('transaksi', OrderController::class);
-    Route::resource('laporan', ReportController::class);
-});
+        Route::resource('game', GameController::class);
+        Route::resource('paket', PackagesController::class);
+        Route::resource('transaksi', OrderController::class);
+        Route::resource('laporan', ReportController::class);
+    });
 
 Route::middleware('guest')->group(function() {
     Route::get('/game', [UserGame::class, 'index'])->name('game.index');
     Route::get('/game/{id}', [UserGame::class, 'show'])->name('game.show')->where('id', '[0-9]+');
     Route::get('/game/search/{q?}', [UserGame::class, 'search'])->name('game.search');
 
-    
+
+    Route::get('/finished/payment/{kw}', [UserOrder::class, 'payment'])->name('finish.payment');
+    Route::get('/order/search/{kw}', [UserOrder::class, 'search'])->name('order.search');
 });
-Route::get('/finished/payment/{id}', function ($id) {
-    $order = Order::findOrFail($id);
-    dd($order);
-})->name('finish.payment');

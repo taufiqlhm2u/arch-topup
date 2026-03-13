@@ -95,6 +95,7 @@ return [
     |
     */
 
+
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
@@ -122,5 +123,7 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'ngrok' => 'https://trifoliate-nonvocally-naida.ngrok-free.dev',
 
 ];

@@ -70,7 +70,7 @@ class OrderController extends Controller
                 'amount' => (int) $totalAmount,
                 'type' => 'SINGLE',
                 'expired_date' => now()->addHours(24)->format('Y-m-d H:i'),
-                'redirect_url' => 'https://trifoliate-nonvocally-naida.ngrok-free.dev/finished/payment/' . $order->id,
+                'redirect_url' => config('app.ngrok') . '/finished/payment/' . $order->no_kw,
                 'status' => 'ACTIVE',
             ];
 

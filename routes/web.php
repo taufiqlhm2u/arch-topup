@@ -31,6 +31,7 @@ Route::middleware('auth')
         Route::resource('game', GameController::class);
         Route::resource('paket', PackagesController::class);
         Route::resource('transaksi', OrderController::class);
+        Route::get('/laporan/cetak', [ReportController::class, 'cetakLaporan'])->name('laporan.cetak');
         Route::resource('laporan', ReportController::class);
     });
 

@@ -12,6 +12,9 @@ new class extends Component {
     public $sortDirection = 'desc';
     public $search = '';
     public $game_id = '';
+    public $dateStart = '';
+    public $dateEnd = '';
+    public $queryOrders = null;
 
     public function sort($field)
     {
@@ -31,48 +34,57 @@ new class extends Component {
     #[\Livewire\Attributes\Computed]
     public function orders()
     {
+        $gameId = $this->game_id;
+
         $query = Order::with(['package.game'])
-            ->orderByRaw("array_position(ARRAY['pending','successful','failed'], status)")
+            ->where('status', 'successful')
             ->orderBy($this->sortBy, $this->sortDirection);
 
-        if ($this->game_id && $this->game_id != 'semua') {
-            $query->whereHas('package.game', function ($query) {
-                $query->where('id', $this->game_id);
+        if ($gameId && $gameId != 'semua') {
+            $query->whereHas('package.game', function ($q) use ($gameId) {
+                $q->where('id', $gameId);
             });
         }
 
-        $keyword = $this->search;
-        if ($keyword) {
-            $query->whereHas('package.game', function ($query) use ($keyword) {
-                $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($keyword) . '%']);
-            })
-                ->orWhere('email', 'like', '%' . $keyword . '%')
-                ->orWhere('no_kw', 'like', '%' . $keyword . '%');
+        if ($this->dateStart && $this->dateEnd) {
+            if ($this->dateStart >= $this->dateEnd) {
+                $this->dispatch('alert', type: 'error', message: 'Tanggal awal harus lebih awal dari tanggal akhir');
+            } else {
+                $query->whereBetween('created_at', [$this->dateStart, $this->dateEnd]);
+            }
         }
 
-        $packages = $query->paginate(5);
-        return $packages;
+        $orders = $query->paginate(5);
+        return $orders;
     }
 
-    public function count()
-    {
-        return Order::count();
-    }
+    public function cetak()
+{
+    $params = [
+        'game_id' => $this->game_id,
+        'dateStart' => $this->dateStart,
+        'dateEnd' => $this->dateEnd,
+    ];
+    return redirect()->route('admin.laporan.cetak', $params);
+}
+
 };
 ?>
 
 <div>
 
-    <div class="mb-4 flex justify-end">
-        <flux:button color="orange" variant="primary" href="https://business.flip.id/sandbox/accept-payment-history"
-            target="_blank">Ubah transaksi</flux:button>
-    </div>
+    <div class="flex justify-between items-center mb-4 gap-3">
 
-    <div class="flex justify-between mb-4 gap-3">
+        <div class="">
+            <div>
+                <flux:label for="dateStart">Dari Tanggal</flux:label>
+                <flux:input wire:model.live="dateStart" type="date" />
+            </div>
+            <div>
+                <flux:label for="dateEnd">Sampai Tanggal</flux:label>
+                <flux:input wire:model.live="dateEnd" type="date" />
+            </div>
 
-        <div class="flex-1 max-w-60">
-            <flux:input icon="magnifying-glass" wire:model.live="search" autocomplete="off"
-                placeholder="Cari game, email, no. kwitansi..." />
         </div>
 
         <div class="flex items-center shrink-0">
@@ -80,6 +92,9 @@ new class extends Component {
         </div>
 
         <div class="shrink-0">
+            <div class="mb-4 flex justify-end">
+                <flux:button color="blue" variant="primary" wire:click="cetak">Cetak</flux:button>
+            </div>
             <flux:select wire:model.live="game_id" placeholder="Pilih Game">
                 <flux:select.option value="">Semua</flux:select.option>
                 @foreach ($this->games() as $game)
@@ -108,6 +123,8 @@ new class extends Component {
                     wire:click="sort('amount')" class="whitespace-nowrap">Bayar</flux:table.column>
                 <flux:table.column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection"
                     wire:click="sort('status')" class="whitespace-nowrap">Status</flux:table.column>
+                <flux:table.column sortable :sorted="$sortBy === 'created_at'" :direction="$sortDirection"
+                    wire:click="sort('created_at')" class="whitespace-nowrap">Tanggal</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->orders as $order)
@@ -124,7 +141,9 @@ new class extends Component {
                         </flux:table.cell>
 
                         <flux:table.cell class="whitespace-nowrap">{{ $order->package->game->name }}</flux:table.cell>
-                        <flux:table.cell class="whitespace-nowrap">{{ $order->package->type }}</flux:table.cell>
+                        <flux:table.cell class="whitespace-nowrap">
+                            {{ $order->package->quantity . ' ' . $order->package->type }}
+                        </flux:table.cell>
                         <flux:table.cell class="whitespace-nowrap">
                             {{ $order->server_id ? $order->player_id . ' (' . $order->server_id . ')' : $order->player_id }}
                         </flux:table.cell>
@@ -138,6 +157,7 @@ new class extends Component {
                                 {{ $order->status }}
                             </flux:badge>
                         </flux:table.cell>
+                        <flux:table.cell class="whitespace-nowrap">{{ $order->created_at->translatedFormat('d F Y') }}</flux:table.cell>
                     </flux:table.row>
                 @endforeach
                 @if($this->orders->count() < 1)

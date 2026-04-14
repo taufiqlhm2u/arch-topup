@@ -23,16 +23,13 @@ new class extends Component {
     #[\Livewire\Attributes\Computed]
     public function games()
     {
-        return Game::query()
-            ->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
-            ->paginate(5);
+        return Game::query()->tap(fn($query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)->paginate(5);
     }
 
     public function count()
     {
         return Game::count();
     }
-
 };
 ?>
 <div>
@@ -41,16 +38,17 @@ new class extends Component {
         <div>
             <flux:icon.loading wire:loading class="text-blue-500" />
         </div>
-        <flux:button :href="route('admin.game.create')" wire:navigate icon="plus" variant="primary" color="blue">Tambah
+        <flux:button :href="route('admin.game.create')" wire:navigate icon="plus" variant="primary" color="blue">
+            Tambah
         </flux:button>
     </div>
 
     <flux:table :paginate="$this->games">
         <flux:table.columns>
             <flux:table.column class="w-8">No</flux:table.column>
-            <flux:table.column sortable :sorted="$sortBy === 'name' " :direction="$sortDirection"
+            <flux:table.column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection"
                 wire:click="sort('name')">Nama game</flux:table.column>
-            <flux:table.column sortable :sorted="$sortBy === 'publisher' " :direction="$sortDirection"
+            <flux:table.column sortable :sorted="$sortBy === 'publisher'" :direction="$sortDirection"
                 wire:click="sort('publisher')">Publisher</flux:table.column>
             <flux:table.column>Server ID game</flux:table.column>
             <flux:table.column sortable :sorted="$sortBy === 'status'" :direction="$sortDirection"
@@ -66,11 +64,12 @@ new class extends Component {
                     <flux:table.cell class="whitespace-nowrap">{{ $this->games->firstItem() + $loop->index }}
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap flex items-center gap-3">
-                    <flux:avatar src="{{ asset('storage/' . $game->image) }}"/>
-                    {{ $game->name }}
-                </flux:table.cell>
+                        <flux:avatar src="{{ asset('storage/' . $game->image) }}" />
+                        {{ $game->name }}
+                    </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ $game->publisher }}</flux:table.cell>
-                    <flux:table.cell class="whitespace-nowrap">{{ $game->server_id ? 'Ada' : 'Tidak ada' }}</flux:table.cell>
+                    <flux:table.cell class="whitespace-nowrap">{{ $game->server_id ? 'Ada' : 'Tidak ada' }}
+                    </flux:table.cell>
                     <flux:table.cell>
                         <flux:badge size="sm" :color="$game->status_color" inset="top bottom">{{ $game->status }}
                         </flux:badge>
@@ -97,43 +96,43 @@ new class extends Component {
                             </flux:menu>
                         </flux:dropdown>
 
-                         <flux:modal name="hapus-{{ $game->id }}">
-                                    <div class="space-y-6">
-                                        <div>
-                                            <flux:heading>Hapus Game</flux:heading>
-                                            <flux:text class="mt-2">
-                                                Apakah kamu yakin ingin menghapus game ini?
-                                            </flux:text>
-                                        </div>
+                        <flux:modal name="hapus-{{ $game->id }}">
+                            <div class="space-y-6">
+                                <div>
+                                    <flux:heading>Hapus Game</flux:heading>
+                                    <flux:text class="mt-2">
+                                        Apakah kamu yakin ingin menghapus game ini?
+                                    </flux:text>
+                                </div>
 
-                                        <div class="flex gap-2">
-                                            <flux:spacer />
+                                <div class="flex gap-2">
+                                    <flux:spacer />
 
-                                            <flux:modal.close>
-                                                <flux:button variant="ghost">
-                                                    Cancel
-                                                </flux:button>
-                                            </flux:modal.close>
+                                    <flux:modal.close>
+                                        <flux:button variant="ghost">
+                                            Cancel
+                                        </flux:button>
+                                    </flux:modal.close>
 
-                                            <form action="{{ route('admin.game.destroy', $game) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <flux:button variant="danger" type="submit">
-                                                    Hapus
-                                                </flux:button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </flux:modal>
+                                    <form action="{{ route('admin.game.destroy', $game) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <flux:button variant="danger" type="submit">
+                                            Hapus
+                                        </flux:button>
+                                    </form>
+                                </div>
+                            </div>
+                        </flux:modal>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
-            @if($this->games->count() < 1)
-            <flux:table.row>
-                <flux:table.cell colspan="5" class="text-center">
-                    {{ __('Tidak ada data') }}
-                </flux:table.cell>
-            </flux:table.row>
+            @if ($this->games->count() < 1)
+                <flux:table.row>
+                    <flux:table.cell colspan="5" class="text-center">
+                        {{ __('Tidak ada data') }}
+                    </flux:table.cell>
+                </flux:table.row>
             @endif
         </flux:table.rows>
     </flux:table>
